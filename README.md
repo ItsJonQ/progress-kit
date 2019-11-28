@@ -62,7 +62,7 @@ export function MyProgressBar(props) {
 	const barCssProps = {
 		backgroundColor: color,
 		height,
-		transition: props.isSmooth ? null : transition
+		transition
 	};
 
 	return (
