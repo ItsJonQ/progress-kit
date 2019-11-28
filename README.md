@@ -1,5 +1,7 @@
 # ⏳ ProgressKit
 
+[![Build Status](https://travis-ci.org/ItsJonQ/progress-kit.svg?branch=master)](https://travis-ci.org/ItsJonQ/progress-kit)
+
 > A Progress Component Toolkit for React
 
 ## Table of contents
