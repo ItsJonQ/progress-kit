@@ -22,7 +22,25 @@
     "README.md",
     "LICENSE"
   ],
-  "license": "MIT",
+  "author": "Jon Quach <hello@jonquach.com> (https://jonquach.com)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsjonq/progress-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itsjonq/progress-kit/issues"
+  },
+  "homepage": "https://github.com/itsjonq/progress-kit#readme",
+  "keywords": [
+    "progress",
+    "toolkit",
+    "progress-kit",
+    "progress-bar",
+    "bar",
+    "circle",
+    "component",
+    "react"
+  ],
   "dependencies": {
     "styled-view": "^0.0.2"
   },
