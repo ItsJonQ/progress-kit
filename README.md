@@ -1,17 +1,18 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
--   [⏳ ProgressKit](#-progresskit)
-    -   [Installation](#installation)
-    -   [Usage](#usage)
-        -   [Ready-made Progress Indicators](#ready-made-progress-indicators)
-        -   [Creating your own](#creating-your-own)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # ⏳ ProgressKit
 
 > A Progress Component Toolkit for React
+
+## Table of contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+-   [Installation](#installation)
+-   [Usage](#usage)
+    -   [Ready-made Progress Indicators](#ready-made-progress-indicators)
+    -   [Creating your own](#creating-your-own)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Installation
 
