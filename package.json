@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.7.4",
-    "@itsjonq/zero": "^4.1.0",
+    "@itsjonq/zero": "^4.1.1",
     "@storybook/addon-actions": "5.2.6",
     "@storybook/addon-links": "5.2.6",
     "@storybook/addons": "5.2.6",
