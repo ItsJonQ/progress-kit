@@ -37,6 +37,8 @@ function Example() {
 
 ### Creating your own
 
+The `useProgressState` hook is inspired by the patterns from [Reakit](https://reakit.io/).
+
 ```jsx
 import React from "react";
 import { View } from "styled-view";
