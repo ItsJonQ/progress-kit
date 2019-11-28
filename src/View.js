@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { transformToCssProps } from "./utils";
+import { sanitizeStyleProps } from "is-style-prop-valid";
 
-const View = styled.div({}, transformToCssProps);
+const View = styled.div({}, sanitizeStyleProps);
 
 export default View;

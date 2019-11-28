@@ -2,34 +2,56 @@ import { useEffect, useState } from "react";
 import { noop, clamp, randomNumber } from "./utils";
 import { useInterval } from "./hooks";
 
+export const START_VALUE = 0;
+export const NEAR_COMPLETION_VALUE = 90;
+export const COMPLETION_VALUE = 100;
+
 export const progressDefaultProps = {
 	children: null,
 	isPaused: false,
-	progress: 0,
+	progress: START_VALUE,
 	onComplete: noop,
 	onChange: noop,
-	refreshTimeout: 1000
+	refreshTimeout: 1000,
+	randomMin: 10,
+	randomMax: 15,
+	nearCompletionRandomMin: 2,
+	nearCompletionRandomMax: 8
 };
 
+function clampProgress(progress) {
+	return clamp(progress, START_VALUE, COMPLETION_VALUE);
+}
+
 export default function Progress(props) {
-	const { progress, isPaused, onComplete, onChange, refreshTimeout } = props;
-	const shouldRun = progress !== 100 && !isPaused;
+	const {
+		isPaused,
+		nearCompletionRandomMax,
+		nearCompletionRandomMin,
+		onChange,
+		onComplete,
+		progress,
+		randomMax,
+		randomMin,
+		refreshTimeout
+	} = props;
+	const shouldRun = progress !== COMPLETION_VALUE && !isPaused;
 
 	const [progressState, setProgressState] = useState(progress);
 	const [isRunning, setIsRunning] = useState(shouldRun);
 
 	useInterval(
 		() => {
-			if (progressState >= 100) {
+			if (progressState >= COMPLETION_VALUE) {
 				onComplete();
 				setIsRunning(false);
 				return;
 			}
-			const nearCompletion = progressState < 90;
+			const nearCompletion = progressState < NEAR_COMPLETION_VALUE;
 			const randomProgress = nearCompletion
-				? randomNumber(2, 8)
-				: randomNumber(20, 30);
-			setProgressState(clamp(progressState + randomProgress, 0, 100));
+				? randomNumber(nearCompletionRandomMax, nearCompletionRandomMin)
+				: randomNumber(randomMin, randomMax);
+			setProgressState(clampProgress(progressState + randomProgress));
 		},
 		isRunning && shouldRun ? refreshTimeout : null
 	);
@@ -39,7 +61,7 @@ export default function Progress(props) {
 	}, [onChange, progressState]);
 
 	useEffect(() => {
-		setProgressState(clamp(progress, 0, 100));
+		setProgressState(clampProgress(progress));
 	}, [progress, setProgressState]);
 
 	return null;

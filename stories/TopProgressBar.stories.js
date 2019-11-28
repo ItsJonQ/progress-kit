@@ -5,4 +5,4 @@ export default {
 	title: "TopProgressBar"
 };
 
-export const _default = () => <TopProgressBar onChange={console.log} />;
+export const _default = () => <TopProgressBar />;

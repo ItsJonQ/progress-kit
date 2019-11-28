@@ -25,7 +25,8 @@
   "license": "MIT",
   "dependencies": {
     "@emotion/core": "^10.0.22",
-    "@emotion/styled": "^10.0.23"
+    "@emotion/styled": "^10.0.23",
+    "is-style-prop-valid": "0.0.2"
   },
   "devDependencies": {
     "@babel/core": "7.7.4",
