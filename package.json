@@ -1,8 +1,8 @@
 {
-  "name": "@itsjonq/react-progress",
+  "name": "progress-kit",
   "version": "0.0.0",
-  "description": "A Progress Component for React",
-  "main": "src/index.js",
+  "description": "A Progress Component Toolkit for React",
+  "main": "dist/index.js",
   "private": false,
   "scripts": {
     "prestart": "zero prestart",
