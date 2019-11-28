@@ -8,6 +8,7 @@
     "prestart": "zero prestart",
     "build": "zero build",
     "lint": "zero lint",
+    "test:coverage": "zero test --coverage",
     "test": "zero test",
     "format": "zero format",
     "validate": "zero validate",
