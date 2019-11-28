@@ -43,7 +43,7 @@
     "react"
   ],
   "dependencies": {
-    "styled-view": "^0.0.2"
+    "styled-view": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
