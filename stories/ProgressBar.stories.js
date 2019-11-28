@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { View } from "styled-view";
 import ProgressBar from "../src/ProgressBar";
-import View from "../src/View";
 
 export default {
 	title: "ProgressBar"
 };
 
 export const _default = () => <ProgressBar color="blue" />;
+
+export const withoutStaggering = () => <ProgressBar color="blue" isSmooth />;
 
 export const styled = () => (
 	<div>

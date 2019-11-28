@@ -1,6 +1,6 @@
 import React from "react";
+import { View } from "styled-view";
 import ProgressBar, { progressBarDefaultProps } from "./ProgressBar";
-import View from "./View";
 
 export const topProgressBarDefaultProps = {
 	...progressBarDefaultProps,

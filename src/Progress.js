@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
-import { noop, clamp, randomNumber } from "./utils";
+import { useEffect, useState, useRef } from "react";
+import {
+	FPS,
+	START_VALUE,
+	NEAR_COMPLETION_VALUE,
+	COMPLETION_VALUE,
+	noop,
+	clamp,
+	randomNumber
+} from "./utils";
 import { useInterval } from "./hooks";
-
-export const START_VALUE = 0;
-export const NEAR_COMPLETION_VALUE = 90;
-export const COMPLETION_VALUE = 100;
 
 export const progressDefaultProps = {
 	children: null,
 	isPaused: false,
+	isSmooth: false,
 	progress: START_VALUE,
 	onComplete: noop,
 	onChange: noop,
@@ -16,16 +21,14 @@ export const progressDefaultProps = {
 	randomMin: 10,
 	randomMax: 15,
 	nearCompletionRandomMin: 2,
-	nearCompletionRandomMax: 8
+	nearCompletionRandomMax: 8,
+	smoothIncrementValue: 0.05
 };
-
-function clampProgress(progress) {
-	return clamp(progress, START_VALUE, COMPLETION_VALUE);
-}
 
 export default function Progress(props) {
 	const {
 		isPaused,
+		isSmooth,
 		nearCompletionRandomMax,
 		nearCompletionRandomMin,
 		onChange,
@@ -33,12 +36,17 @@ export default function Progress(props) {
 		progress,
 		randomMax,
 		randomMin,
-		refreshTimeout
+		refreshTimeout,
+		smoothIncrementValue
 	} = props;
-	const shouldRun = progress !== COMPLETION_VALUE && !isPaused;
 
 	const [progressState, setProgressState] = useState(progress);
+	const progressRef = useRef(progress);
+
+	const shouldRun = progressState !== COMPLETION_VALUE && !isPaused;
+
 	const [isRunning, setIsRunning] = useState(shouldRun);
+	const timeoutValue = !isSmooth ? refreshTimeout : FPS;
 
 	useInterval(
 		() => {
@@ -51,17 +59,25 @@ export default function Progress(props) {
 			const randomProgress = nearCompletion
 				? randomNumber(nearCompletionRandomMax, nearCompletionRandomMin)
 				: randomNumber(randomMin, randomMax);
-			setProgressState(clampProgress(progressState + randomProgress));
+
+			const nextProgress = !isSmooth
+				? randomProgress
+				: smoothIncrementValue;
+
+			setProgressState(clamp(progressState + nextProgress));
 		},
-		isRunning && shouldRun ? refreshTimeout : null
+		isRunning && shouldRun ? timeoutValue : null
 	);
 
 	useEffect(() => {
-		onChange(progressState);
-	}, [onChange, progressState]);
+		if (progressRef.current !== progressState) {
+			progressRef.current = progressState;
+			onChange(clamp(progressState));
+		}
+	}, [onChange, progressState, progressRef]);
 
 	useEffect(() => {
-		setProgressState(clampProgress(progress));
+		setProgressState(clamp(progress));
 	}, [progress, setProgressState]);
 
 	return null;
