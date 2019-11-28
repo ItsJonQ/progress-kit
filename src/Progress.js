@@ -25,7 +25,7 @@ export const progressDefaultProps = {
 	smoothIncrementValue: 0.05
 };
 
-export default function Progress(props) {
+export function Progress(props) {
 	const {
 		isPaused,
 		isSmooth,
@@ -84,3 +84,5 @@ export default function Progress(props) {
 }
 
 Progress.defaultProps = progressDefaultProps;
+
+export default Progress;

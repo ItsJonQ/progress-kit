@@ -1,5 +1,5 @@
 import React from "react";
-import TopProgressBar from "../src/TopProgressBar";
+import { TopProgressBar } from "../src/index";
 
 export default {
 	title: "TopProgressBar"

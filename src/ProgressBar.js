@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View } from "styled-view";
-import Progress, { progressDefaultProps } from "./Progress";
-import { clamp } from "./utils";
+import { Progress, progressDefaultProps } from "./Progress";
+import { useProgressState } from "./useProgressState";
 
 export const progressBarDefaultProps = {
 	...progressDefaultProps,
@@ -10,7 +10,7 @@ export const progressBarDefaultProps = {
 	transition: "all 200ms ease"
 };
 
-export default function ProgressBar(props) {
+export function ProgressBar(props) {
 	const {
 		color,
 		onChange,
@@ -20,16 +20,7 @@ export default function ProgressBar(props) {
 		...restProps
 	} = props;
 
-	const [progressState, setProgressState] = useState(progress);
-
-	useEffect(() => {
-		setProgressState(clamp(progress));
-	}, [progress, setProgressState]);
-
-	const handleOnChange = nextProgress => {
-		onChange(nextProgress);
-		setProgressState(nextProgress);
-	};
+	const progressStateProps = useProgressState(props);
 
 	const barCssProps = {
 		backgroundColor: color,
@@ -39,19 +30,12 @@ export default function ProgressBar(props) {
 
 	return (
 		<>
-			<Progress
-				{...restProps}
-				progress={progressState}
-				onChange={handleOnChange}
-			/>
+			<Progress {...progressStateProps} {...restProps} />
 			<View
+				{...progressStateProps}
 				{...barCssProps}
-				role="progressbar"
-				aria-valuenow={progressState}
-				aria-valuemin="0"
-				aria-valuemax="100"
 				style={{
-					width: `${progressState}%`
+					width: `${progressStateProps.progress}%`
 				}}
 			/>
 		</>
@@ -59,3 +43,5 @@ export default function ProgressBar(props) {
 }
 
 ProgressBar.defaultProps = progressBarDefaultProps;
+
+export default ProgressBar;

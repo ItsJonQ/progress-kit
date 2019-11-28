@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View } from "styled-view";
-import ProgressBar from "../src/ProgressBar";
+import { ProgressBar } from "../src/index";
 
 export default {
 	title: "ProgressBar"

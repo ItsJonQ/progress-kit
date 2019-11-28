@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "styled-view";
-import ProgressBar, { progressBarDefaultProps } from "./ProgressBar";
+import { ProgressBar, progressBarDefaultProps } from "./ProgressBar";
 
 export const topProgressBarDefaultProps = {
 	...progressBarDefaultProps,
@@ -11,7 +11,7 @@ export const topProgressBarDefaultProps = {
 	zIndex: 100
 };
 
-export default function TopProgressBar(props) {
+export function TopProgressBar(props) {
 	const { position, top, left, width, zIndex, ...restProps } = props;
 
 	const wrapperCssProps = {
@@ -32,3 +32,5 @@ export default function TopProgressBar(props) {
 }
 
 TopProgressBar.defaultProps = topProgressBarDefaultProps;
+
+export default TopProgressBar;
