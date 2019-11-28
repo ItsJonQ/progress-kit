@@ -1,7 +1,7 @@
 {
   "name": "@itsjonq/react-progress",
   "version": "0.0.0",
-  "description": "Module generated with Zero",
+  "description": "A Progress Component for React",
   "main": "src/index.js",
   "private": false,
   "scripts": {
