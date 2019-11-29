@@ -7,6 +7,10 @@ export function noop() {
 	return null;
 }
 
+export function isFunction(value) {
+	return typeof value === "function";
+}
+
 export function randomNumber(low, high) {
 	return Math.floor(Math.random() * (high - low) + low);
 }

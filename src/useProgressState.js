@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { clamp } from "./utils";
+import { clamp, isFunction } from "./utils";
 
 export function useProgressState({ progress, onChange }) {
 	const progressRef = useRef(progress);
@@ -14,7 +14,9 @@ export function useProgressState({ progress, onChange }) {
 
 	const handleOnChange = nextProgress => {
 		setProgressState(nextProgress);
-		onChange(nextProgress);
+		if (isFunction(onChange)) {
+			onChange(nextProgress);
+		}
 	};
 
 	return {
