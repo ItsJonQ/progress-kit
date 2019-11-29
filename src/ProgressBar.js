@@ -1,7 +1,6 @@
 import React from "react";
 import { View } from "styled-view";
-import { Progress, progressDefaultProps } from "./Progress";
-import { useProgressState } from "./useProgressState";
+import { useProgressState, progressDefaultProps } from "./useProgressState";
 
 export const progressBarDefaultProps = {
 	...progressDefaultProps,
@@ -11,16 +10,8 @@ export const progressBarDefaultProps = {
 };
 
 export function ProgressBar(props) {
-	const {
-		color,
-		onChange,
-		progress,
-		transition,
-		height,
-		...restProps
-	} = props;
-
-	const progressStateProps = useProgressState(props);
+	const { color, transition, height, ...restProps } = props;
+	const { progress, progressProps } = useProgressState(props);
 
 	const barCssProps = {
 		backgroundColor: color,
@@ -30,12 +21,12 @@ export function ProgressBar(props) {
 
 	return (
 		<>
-			<Progress {...progressStateProps} {...restProps} />
 			<View
-				{...progressStateProps}
+				{...progressProps}
 				{...barCssProps}
+				{...restProps}
 				style={{
-					width: `${progressStateProps.progress}%`
+					width: `${progress}%`
 				}}
 			/>
 		</>

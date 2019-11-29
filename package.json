@@ -14,7 +14,7 @@
     "coverage": "nyc report --temp-directory=coverage --reporter=text-lcov | coveralls",
     "lint": "zero lint",
     "dev": "zero test",
-    "test": "zero test --no-watch",
+    "test": "zero test --coverage",
     "test:coverage": "zero test --coverage",
     "format": "zero format",
     "validate": "zero validate",

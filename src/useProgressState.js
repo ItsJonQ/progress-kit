@@ -1,31 +1,104 @@
-import { useRef, useEffect, useState } from "react";
-import { clamp, isFunction } from "./utils";
+import { useEffect, useState, useRef } from "react";
+import {
+	FPS,
+	START_VALUE,
+	NEAR_COMPLETION_VALUE,
+	COMPLETION_VALUE,
+	clamp,
+	randomNumber,
+	isFunction
+} from "./utils";
+import { useInterval } from "./hooks";
 
-export function useProgressState({ progress, onChange }) {
-	const progressRef = useRef(progress);
+export const progressDefaultProps = {
+	children: null,
+	isPaused: false,
+	isSmooth: false,
+	progress: START_VALUE,
+	refreshTimeout: 1000,
+	randomMin: 10,
+	randomMax: 15,
+	nearCompletionRandomMin: 2,
+	nearCompletionRandomMax: 8,
+	smoothIncrementValue: 0.05
+};
+
+export function useProgressState(props = {}) {
+	const mergedProps = { ...progressDefaultProps, ...props };
+	const {
+		isPaused,
+		isSmooth,
+		nearCompletionRandomMax,
+		nearCompletionRandomMin,
+		onChange,
+		onComplete,
+		progress,
+		randomMax,
+		randomMin,
+		refreshTimeout,
+		smoothIncrementValue
+	} = mergedProps;
+
 	const [progressState, setProgressState] = useState(progress);
+	const progressRef = useRef(progress);
+
+	const isComplete = progressState !== COMPLETION_VALUE;
+	const shouldRun = isComplete && !isPaused;
+
+	const [isRunning, setIsRunning] = useState(shouldRun);
+	const timeoutValue = !isSmooth ? refreshTimeout : FPS;
+
+	useInterval(
+		() => {
+			if (progressState >= COMPLETION_VALUE) {
+				if (isFunction(onComplete)) {
+					onComplete();
+				}
+				setIsRunning(false);
+				return;
+			}
+			const nearCompletion = progressState < NEAR_COMPLETION_VALUE;
+			const randomProgress = nearCompletion
+				? randomNumber(nearCompletionRandomMax, nearCompletionRandomMin)
+				: randomNumber(randomMin, randomMax);
+
+			const nextProgress = !isSmooth
+				? randomProgress
+				: smoothIncrementValue;
+
+			setProgressState(clamp(progressState + nextProgress));
+		},
+		isRunning && shouldRun ? timeoutValue : null
+	);
 
 	useEffect(() => {
-		if (progressRef.current !== progress) {
-			progressRef.current = progress;
-			setProgressState(clamp(progress));
+		if (progressRef.current !== progressState) {
+			progressRef.current = progressState;
+			if (isFunction(onChange)) {
+				onChange(clamp(progressState));
+			}
 		}
-	}, [progressRef, progress, setProgressState]);
+	}, [onChange, progressState, progressRef]);
 
-	const handleOnChange = nextProgress => {
-		setProgressState(nextProgress);
-		if (isFunction(onChange)) {
-			onChange(nextProgress);
-		}
+	useEffect(() => {
+		setProgressState(clamp(progress));
+	}, [progress, setProgressState]);
+
+	const setProgress = nextProgress => {
+		setProgressState(clamp(nextProgress));
 	};
 
 	return {
-		onChange: handleOnChange,
 		progress: progressState,
-		role: "progressbar",
-		"aria-valuenow": progressState,
-		"aria-valuemin": "0",
-		"aria-valuemax": "100"
+		setProgress,
+		isComplete,
+		isRunning,
+		progressProps: {
+			role: "progressbar",
+			"aria-valuenow": progressState,
+			"aria-valuemin": "0",
+			"aria-valuemax": "100"
+		}
 	};
 }
 

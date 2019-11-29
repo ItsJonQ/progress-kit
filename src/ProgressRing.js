@@ -1,7 +1,6 @@
 import React from "react";
 import { View } from "styled-view";
-import { Progress, progressDefaultProps } from "./Progress";
-import { useProgressState } from "./useProgressState";
+import { useProgressState, progressDefaultProps } from "./useProgressState";
 
 export const progressRingDefaultProps = {
 	...progressDefaultProps,
@@ -21,21 +20,18 @@ export function ProgressRing(props) {
 		circleStyle,
 		color,
 		isRounded,
-		onChange,
-		progress,
 		size,
 		strokeWidth,
 		transition,
 		...restProps
 	} = props;
 
-	const progressStateProps = useProgressState(props);
-	const { progress: progressState } = progressStateProps;
+	const { progress, progressProps } = useProgressState(props);
 
 	const circleSize = size / 2;
 	const radius = circleSize - strokeWidth;
 	const circumference = radius * 2 * Math.PI;
-	const offset = circumference - (progressState / 100) * circumference;
+	const offset = circumference - (progress / 100) * circumference;
 
 	const circleCssProps = {
 		stroke: color,
@@ -54,8 +50,8 @@ export function ProgressRing(props) {
 
 	return (
 		<>
-			<Progress {...progressStateProps} {...restProps} />
 			<View
+				{...restProps}
 				as="svg"
 				display="block"
 				width={size}
@@ -72,7 +68,7 @@ export function ProgressRing(props) {
 					cy={circleSize}
 				/>
 				<View
-					{...progressStateProps}
+					{...progressProps}
 					{...circleCssProps}
 					as="circle"
 					fill="none"

@@ -42,7 +42,7 @@ The `useProgressState` hook is inspired by the patterns from [Reakit](https://re
 ```jsx
 import React from "react";
 import { View } from "styled-view";
-import { Progress, progressDefaultProps, useProgressState } from "progress-kit";
+import { progressDefaultProps, useProgressState } from "progress-kit";
 
 export const defaultProps = {
 	...progressDefaultProps,
@@ -52,16 +52,9 @@ export const defaultProps = {
 };
 
 export function MyProgressBar(props) {
-	const {
-		color,
-		onChange,
-		progress,
-		transition,
-		height,
-		...restProps
-	} = props;
+	const { color, transition, height, ...restProps } = props;
 
-	const progressStateProps = useProgressState(props);
+	const { progress, progressProps } = useProgressState(props);
 
 	const barCssProps = {
 		backgroundColor: color,
@@ -70,16 +63,13 @@ export function MyProgressBar(props) {
 	};
 
 	return (
-		<>
-			<Progress {...progressStateProps} {...restProps} />
-			<View
-				{...progressStateProps}
-				{...barCssProps}
-				style={{
-					width: `${progressStateProps.progress}%`
-				}}
-			/>
-		</>
+		<View
+			{...progressProps}
+			{...barCssProps}
+			style={{
+				width: `${progressStateProps.progress}%`
+			}}
+		/>
 	);
 }
 
